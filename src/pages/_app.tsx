@@ -5,7 +5,7 @@ import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import { appWithTranslation } from 'next-i18next';
 
-import PageChange from "components/PageChange/PageChange";
+import PageChange from "common/components/PageChange/PageChange";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "styles/tailwind.css";

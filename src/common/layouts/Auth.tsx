@@ -2,8 +2,8 @@ import React from "react";
 
 // components
 
-import Navbar from "components/Navbars/AuthNavbar";
-import FooterSmall from "components/Footers/FooterSmall";
+import Navbar from "common/components/Navbars/AuthNavbar";
+import FooterSmall from "common/components/Footers/FooterSmall";
 
 const Auth: React.FC = ({ children }) => {
   return (

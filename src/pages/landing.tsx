@@ -3,8 +3,8 @@ import { GetStaticProps } from 'next';
 import Link from "next/link";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Navbar from "components/Navbars/AuthNavbar";
-import Footer from "components/Footers/Footer";
+import Navbar from "common/components/Navbars/AuthNavbar";
+import Footer from "common/components/Footers/Footer";
 import { members } from "utils/members";
 
 const Landing = () => {

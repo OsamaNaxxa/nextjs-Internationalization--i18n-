@@ -2,8 +2,8 @@ import React from "react";
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Navbar from "components/Navbars/AuthNavbar";
-import Footer from "components/Footers/Footer";
+import Navbar from "common/components/Navbars/AuthNavbar";
+import Footer from "common/components/Footers/Footer";
 
 const session = {
   user: {
