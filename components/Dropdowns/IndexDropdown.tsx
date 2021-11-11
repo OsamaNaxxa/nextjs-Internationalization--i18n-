@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import { useSession, signOut } from "next-auth/react";
 import { createPopper } from "@popperjs/core";
 import { withTranslation, i18n } from 'next-i18next';
 
@@ -11,7 +10,6 @@ interface Props {
 
 const IndexDropdown = ({ t }: Props) => {
 
-  const { status } = useSession();
   const router = useRouter();
   const { locale } = router;
 
@@ -45,7 +43,7 @@ const IndexDropdown = ({ t }: Props) => {
           dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
         }}
       >
-        {t("demoPages", { ns: 'header' })}
+        {t("demoPages")}
       </a>
       <div
         ref={popoverDropdownRef}
@@ -63,11 +61,11 @@ const IndexDropdown = ({ t }: Props) => {
           Auth Layout
         </span>
         {
-          status === "authenticated" ?
+          false ?
             <button
               className="uppercase outline-none focus:outline-none text-sm pt-2 pb-0 px-4 font-bold block whitespace-nowrap bg-transparent text-lightBlue-600"
               type="button"
-              onClick={() => { signOut({ callbackUrl: `${window.location.origin}/auth/signin` }) }}
+              onClick={() => { }}
             >
               <i className="fas fa-sign-out-alt"></i> Sign out
             </button>
@@ -114,7 +112,7 @@ const IndexDropdown = ({ t }: Props) => {
           </a>
         </Link>
         {
-          status === "authenticated" &&
+          true &&
           <Link href="/profile">
             <a
               href="#pablo"
@@ -132,4 +130,4 @@ const IndexDropdown = ({ t }: Props) => {
   );
 };
 
-export default withTranslation(["header"])(IndexDropdown);
+export default withTranslation("header")(IndexDropdown);

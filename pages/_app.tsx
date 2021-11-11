@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { AppProps } from 'next/app';
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
-import { SessionProvider } from "next-auth/react";
 import { appWithTranslation } from 'next-i18next';
 
 import PageChange from "components/PageChange/PageChange";
@@ -30,7 +29,7 @@ const MyApp: React.FC<AppProps> = (props) => {
       _html.setAttribute("dir", dir);
   }, [locale]);
 
-  return <SessionProvider>
+  return <>
     <Head>
       <meta
         name="viewport"
@@ -41,11 +40,10 @@ const MyApp: React.FC<AppProps> = (props) => {
     <Layout>
       <Component {...pageProps} />
     </Layout>
-  </SessionProvider>
+  </>
 }
 
 export default appWithTranslation(MyApp)
-// export default MyApp
 
 
 Router.events.on("routeChangeStart", (url) => {

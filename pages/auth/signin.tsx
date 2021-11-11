@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { GetServerSideProps } from "next";
-import { getCsrfToken, signIn, getSession, } from 'next-auth/react';
 
 import Auth from "layouts/Auth";
 
-interface Props {
-  csrfToken: string;
-}
-
-export default function Login({ csrfToken }: Props) {
+export default function Login() {
 
   const [credentials, setCredentials] = useState({ email: "test1", password: "123" });
 
@@ -17,16 +11,7 @@ export default function Login({ csrfToken }: Props) {
     setCredentials({ ...credentials, [event.target.name]: event.target.value })
   }
 
-  const handleLogin = () => {
-    signIn('credentials',
-      {
-        ...credentials,
-        // The page where you want to redirect to after a 
-        // successful login
-        callbackUrl: `${window.location.origin}/profile`
-      }
-    )
-  }
+  const handleLogin = () => {}
 
   return (
     <>
@@ -63,7 +48,6 @@ export default function Login({ csrfToken }: Props) {
                   <small>Or sign in with credentials</small>
                 </div>
                 <form>
-                  <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
 
                   <div className="relative w-full mb-3">
                     <label
@@ -149,21 +133,3 @@ export default function Login({ csrfToken }: Props) {
 }
 
 Login.layout = Auth;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-  if (session !== null) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    }
-  }
-
-  return {
-    props: {
-      csrfToken: await getCsrfToken(context)
-    },
-  }
-}

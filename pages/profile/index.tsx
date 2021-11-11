@@ -1,17 +1,19 @@
 import React from "react";
-import { useSession } from "next-auth/react";
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Navbar from "components/Navbars/AuthNavbar";
 import Footer from "components/Footers/Footer";
 
+const session = {
+  user: {
+    "name": "Donaugh Edworthy",
+    "profession": "Desktop Support Technician",
+    "profileImage": "/img/team-1-800x800.jpg"
+  }
+};
+
 export default function Profile() {
-
-  const { data: session, status } = useSession();
-
-  if (status !== "authenticated")
-    return (
-      <div>Not Authenticated</div>
-    )
 
   return (
     <>
@@ -149,3 +151,9 @@ export default function Profile() {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...await serverSideTranslations(locale as string, ['header']),
+  },
+})

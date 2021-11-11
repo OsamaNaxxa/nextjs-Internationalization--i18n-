@@ -663,8 +663,8 @@ export default function Index() {
   );
 }
 
-// export const getStaticProps: GetStaticProps = async ({ locale }) => ({
-//   props: {
-//     ...await serverSideTranslations(locale as string, ['common', 'footer', 'header']),
-//   },
-// })
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...await serverSideTranslations(locale as string, ['common', 'footer', 'header']),
+  },
+})

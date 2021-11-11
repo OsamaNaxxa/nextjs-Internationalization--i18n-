@@ -1,18 +1,13 @@
 import React from "react";
 import { GetStaticProps } from 'next';
 import Link from "next/link";
-import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
-// components
 
 import Navbar from "components/Navbars/AuthNavbar";
 import Footer from "components/Footers/Footer";
 import { members } from "utils/members";
 
-export default function Landing() {
-
-  const { t } = useTranslation();
+const Landing = () => {
 
   return (
     <>
@@ -582,8 +577,10 @@ export default function Landing() {
   );
 }
 
-// export const getStaticProps: GetStaticProps = async ({ locale }) => ({
-//   props: {
-//     ...await serverSideTranslations(locale as string, ['common', 'footer', 'header']),
-//   },
-// })
+export default Landing;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...await serverSideTranslations(locale as string, ['common', "header"])
+  }
+})

@@ -1,13 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import { useSession, signOut } from "next-auth/react";
 import { createPopper } from "@popperjs/core";
 import { useTranslation } from 'next-i18next';
 
 const PagesDropdown = () => {
 
-  const { status, data } = useSession();
   const router = useRouter();
   const { locale } = router;
 
@@ -61,11 +59,11 @@ const PagesDropdown = () => {
           Auth Layout
         </span>
         {
-          status === "authenticated" ?
+          false ?
             <button
               className="uppercase outline-none focus:outline-none text-sm pt-2 pb-0 px-4 font-bold block whitespace-nowrap bg-transparent text-lightBlue-600"
               type="button"
-              onClick={() => { signOut({ callbackUrl: `${window.location.origin}/auth/signin` }) }}
+              onClick={() => { }}
             >
               <i className="fas fa-sign-out-alt"></i> Sign out
             </button>
@@ -107,7 +105,7 @@ const PagesDropdown = () => {
           </a>
         </Link>
         {
-          status === "authenticated" &&
+          true &&
           <Link href="/profile">
             <a className={"text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"}>
               Profile
