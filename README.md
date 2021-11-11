@@ -6,8 +6,6 @@ This has a basic implementation for i18n that uses.
 * [tailwind css](https://tailwindcss.com/)
 * [typescript](https://www.typescriptlang.org/docs/handbook/react.html)
 
-You can see a live demo at **https://nextjs-starter.now.sh**
-
 ## Running locally in development mode
 
 To get started, just clone the repository and run `yarn install && yarn run dev`:
