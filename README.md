@@ -1,4 +1,4 @@
-# Next.js Internationalization
+# <img  align="left" width="80" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nextjs-logo.svg/1200px-Nextjs-logo.svg.png"/> Internationalization
 
 This has a basic implementation for i18n that uses.
 
