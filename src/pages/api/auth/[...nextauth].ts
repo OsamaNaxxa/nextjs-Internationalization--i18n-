@@ -1,75 +1,59 @@
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-
-import { members } from "utils/members";
-
-const testUsers = {
-    test1: 0,
-    test2: 1,
-    test3: 2,
-    test4: 3
-};
+import IdentityServer4Provider from "next-auth/providers/identity-server4";
 
 export default NextAuth({
     providers: [
-        CredentialsProvider({
-            name: 'Credentials',
-            async authorize(credentials, req) {
-
-                let testUser = testUsers[credentials.email];
-                if(testUser === null || testUser < 0){
-                    return null;
+        IdentityServer4Provider({
+            authorization: {
+                params: {
+                    redirect_uri: "http://localhost:3000/signin-callback.html",
+                    response_type: "code",
+                    scope: "lookupapis openid roles profile baladyapi establishmentapi requestapi proxyapi companyapi userprofileapis delegationapi Invoicingapi offline_access"
                 }
-
-                // const user = { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-
-                // if (user) {
-                    return await members[testUser];
-                // } else {
-                //     return null
-                // }
-            }
-        })
+            },
+            client: {
+                token_endpoint_auth_method: 'none',
+            },
+            issuer: "https://www.sbc-stg.com",
+            clientId: "BaladyLicenseClient",
+            // clientSecret: "any secret here",
+            checks: ["pkce"]
+            
+        }),
     ],
 
     callbacks: {
-        jwt: ({ token, user }) => {
-            if (user) {
-                token.id = user.id;
-                token.profession = user.profession;
-                token.profileImage = user.profileImage;
-            }
-
-            return token;
+        async signIn({ user, account, profile }) {
+            return true
         },
-        session: ({ session, token }) => {
-            if (token) {
-                session.user.id = token.id;
-                session.user.profession = token.profession;
-                session.user.profileImage = token.profileImage;
-            }
-
-            return session;
+        async redirect({ url, baseUrl }) {
+            return baseUrl
+        },
+        async jwt({ token, user, account, profile, isNewUser }) {
+            return token
         }
     },
 
-    pages: {
-        signIn: '/auth/signin',
-        error: '/auth/error',
+    secret: process.env.SECRET,
+    session: {
+        jwt: true
     },
-
-    secret: "test",
-
     jwt: {
         secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
-        encryption: true
+        signingKey: process.env.JWT_SIGNING_KEY,
+        // verificationOptions: {
+        //     algorithms: ['HS256']
+        // },
+        encryption: true,
+        encryptionKey: "",
+        // decryptionOptions: {
+        //     algorithms: ['A256GCM']
+        // }
     },
 
-    session: {
-        jwt: true,
-        maxAge: 30 * 24 * 60 * 60, // 30 days
-        updateAge: 24 * 60 * 60, // 24 hours
+    pages: {
+        signIn: 'http://localhost:3000/auth/signin'
     },
 
-    debug: true,
+    debug: false
 })

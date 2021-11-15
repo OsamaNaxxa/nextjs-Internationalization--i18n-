@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
+import { GetStaticProps } from "next";
 import ReactDOM from "react-dom";
-import { AppProps } from 'next/app';
+import App, { AppContext, AppProps } from 'next/app';
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import { appWithTranslation } from 'next-i18next';
+import { SessionProvider } from "next-auth/react";
 
 import PageChange from "common/components/PageChange/PageChange";
 
@@ -30,20 +32,36 @@ const MyApp: React.FC<AppProps> = (props) => {
   }, [locale]);
 
   return <>
-    <Head>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no"
-      />
-      <title> NextJS POC Project</title>
-    </Head>
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <SessionProvider>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <title> NextJS POC Project</title>
+      </Head>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SessionProvider>
   </>
 }
 
-export default appWithTranslation(MyApp)
+// MyApp.getStaticProps = async (appContext: AppContext ) => {
+//   let path = appContext.ctx.asPath;
+//   console.log(path);
+//   if (path?.includes("/signin-callback.html")) {
+//     if (typeof window === "undefined" && appContext.ctx.res?.writeHead)
+//     appContext.ctx.res?.writeHead(302, { Location: path.replace("signin-callback.html", "api/auth/callback/identity-server4") }).end()
+//   }
+
+//   const appProps = await App.getInitialProps(appContext);
+//   return { ...appProps };
+// }
+
+
+// export default appWithTranslation(MyApp)
+export default MyApp
 
 
 Router.events.on("routeChangeStart", (url) => {

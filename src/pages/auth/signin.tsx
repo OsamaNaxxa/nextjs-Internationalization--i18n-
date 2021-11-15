@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { signIn } from 'next-auth/react';
 
-import Auth from "src/layouts/Auth";
+import Auth from "common/layouts/Auth";
 
 export default function Login() {
 
-  const [credentials, setCredentials] = useState({ email: "test1", password: "123" });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value })
   }
 
-  const handleLogin = () => {}
+  const handleLogin = () => {
+    signIn('identity-server4')
+  }
 
   return (
     <>
@@ -59,7 +62,7 @@ export default function Login() {
                     <input
                       type="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Email"
+                      placeholder=""
                       name="email"
                       onChange={handleChange}
                       value={credentials.email}
@@ -76,7 +79,7 @@ export default function Login() {
                     <input
                       type="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Password"
+                      placeholder=""
                       name="password"
                       onChange={handleChange}
                       value={credentials.password}
@@ -101,7 +104,7 @@ export default function Login() {
                       type="button"
                       onClick={handleLogin}
                     >
-                      Sign In
+                      Sign In using Identity
                     </button>
                   </div>
                 </form>

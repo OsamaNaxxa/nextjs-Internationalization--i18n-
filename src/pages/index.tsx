@@ -2,12 +2,16 @@
 import React from "react";
 import Link from "next/link";
 import { GetStaticProps } from 'next';
+import { useSession } from "next-auth/react";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import IndexNavbar from "common/components/Navbars/IndexNavbar";
 import Footer from "common/components/Footers/Footer";
 
 export default function Index() {
+  const { data: session, status } = useSession();
+  console.log(session);
+
   return (
     <>
       <IndexNavbar />

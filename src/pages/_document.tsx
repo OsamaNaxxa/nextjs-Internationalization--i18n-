@@ -3,6 +3,12 @@ import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/do
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
+    // let path = ctx.asPath;
+    //     if (path?.includes("/signin-callback.html")) {
+    //       console.log(path);
+    //         if (typeof window === "undefined" && ctx.res?.writeHead)
+    //             ctx.res?.writeHead(302, { Location: path.replace("signin-callback.html", "api/auth/callback/identity-server4") }).end()
+    //     }
     const initialProps = await Document.getInitialProps(ctx);
     return { ...initialProps }
   }
