@@ -6,40 +6,27 @@ export default NextAuth({
         IdentityServer4Provider({
             authorization: {
                 params: {
-                    redirect_uri: "http://localhost:3000/signin-callback.html",
+                    redirect_uri: process.env.IDENTITY_CALLBACK_URL,
                     response_type: "code",
-                    scope: "lookupapis openid roles profile baladyapi establishmentapi requestapi proxyapi companyapi userprofileapis delegationapi Invoicingapi offline_access"
+                    scope: process.env.IDENTITY_SCOPES
                 }
             },
             client: {
                 token_endpoint_auth_method: 'none',
             },
-            issuer: "https://www.sbc-stg.com",
-            clientId: "BaladyLicenseClient",
-            // clientSecret: "any secret here",
-            checks: ["pkce"]
+            issuer: process.env.IDENTITY_ISSUER,
+            clientId: process.env.IDENTITY_CLIENT_ID,
+            clientSecret: "any secret here",
             
         }),
     ],
 
-    callbacks: {
-        async signIn({ user, account, profile }) {
-            return true
-        },
-        async redirect({ url, baseUrl }) {
-            return baseUrl
-        },
-        async jwt({ token, user, account, profile, isNewUser }) {
-            return token
-        }
-    },
-
-    secret: process.env.SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     session: {
         jwt: true
     },
     jwt: {
-        secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
+        secret: process.env.JWT_SECRET,
         signingKey: process.env.JWT_SIGNING_KEY,
         // verificationOptions: {
         //     algorithms: ['HS256']
