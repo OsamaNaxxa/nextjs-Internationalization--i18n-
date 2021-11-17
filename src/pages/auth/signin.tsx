@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import {useRouter} from "next/router";
 import Link from "next/link";
 import { signIn } from 'next-auth/react';
 
 import Auth from "common/layouts/Auth";
 
 export default function Login() {
+
+  const Router = useRouter();
 
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
@@ -99,12 +102,20 @@ export default function Login() {
                   </div>
 
                   <div className="text-center mt-6">
-                    <button
+                    {/* <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
                       onClick={handleLogin}
                     >
                       Sign In using Identity
+                    </button> */}
+                    <a href="/api/signin">Sign In using Identity</a>
+                    <button
+                      className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={handleLogin}
+                    >
+                      
                     </button>
                   </div>
                 </form>

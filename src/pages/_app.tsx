@@ -5,7 +5,7 @@ import App, { AppContext, AppProps } from 'next/app';
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import { appWithTranslation } from 'next-i18next';
-import { SessionProvider } from "next-auth/react";
+import { UserProvider } from '@auth0/nextjs-auth0';
 
 import PageChange from "common/components/PageChange/PageChange";
 
@@ -32,7 +32,7 @@ const MyApp: React.FC<AppProps> = (props) => {
   }, [locale]);
 
   return <>
-    <SessionProvider>
+    <UserProvider>
       <Head>
         <meta
           name="viewport"
@@ -43,7 +43,7 @@ const MyApp: React.FC<AppProps> = (props) => {
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </SessionProvider>
+    </UserProvider>
   </>
 }
 
