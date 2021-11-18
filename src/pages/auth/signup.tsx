@@ -1,9 +1,18 @@
-import React from "react";
-import ProtectedRoute from "hocs/ProtectedRoute";
+import React, { useContext } from "react";
+import Router from "next/router";
 
+import { UserContext } from 'contexts/UserContext';
 import Auth from "common/layouts/Auth";
 
 function Register() {
+
+  const user = useContext(UserContext);
+
+  React.useEffect(() => {
+    if (user)
+      Router.push({ pathname: "/" + Router.locale });
+  }, [user])
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -119,6 +128,6 @@ function Register() {
   );
 }
 
-export default ProtectedRoute(Register);
+export default Register;
 
 Register.layout = Auth;

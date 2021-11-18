@@ -14,7 +14,7 @@ const AuthenticatedRoute = (WrappedComponent: ComponentType) => {
                 Router.push({
                     pathname: `/${Router.locale}/auth/signin`,
                     query: {
-                        returnUrl: Router.asPath
+                        redirect_Uri: Router.asPath
                     }
                 });
         }, [user])
@@ -23,5 +23,6 @@ const AuthenticatedRoute = (WrappedComponent: ComponentType) => {
         return <WrappedComponent {...props} />
     }
 };
+
 
 export default AuthenticatedRoute;

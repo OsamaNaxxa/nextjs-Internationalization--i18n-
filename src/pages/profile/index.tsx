@@ -2,6 +2,7 @@ import React from "react";
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import AuthenticatedRoute from "hocs/AuthenticatedRoute";
 import Navbar from "common/components/Navbars/AuthNavbar";
 import Footer from "common/components/Footers/Footer";
 
@@ -13,7 +14,7 @@ const session = {
   }
 };
 
-export default function Profile() {
+function Profile() {
 
   return (
     <>
@@ -157,3 +158,5 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => ({
     ...await serverSideTranslations(locale as string, ['header']),
   },
 })
+
+export default AuthenticatedRoute(Profile)

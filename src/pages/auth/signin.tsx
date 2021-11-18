@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import IdentityAuth from "utils/identityAuth";
-import ProtectedRoute from "hocs/ProtectedRoute";
 
+import { UserContext } from 'contexts/UserContext';
 import Auth from "common/layouts/Auth";
 
 function Login() {
 
+  const Router = useRouter();
+
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+
+  const user = useContext(UserContext);
+
+  React.useEffect(() => {
+    if (user)
+      Router.push({ pathname: "/" + Router.locale });
+  }, [user])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value })
   }
 
   const handleLogin = () => {
-    IdentityAuth.login();
+    IdentityAuth.login(Router.query);
   }
 
   return (
@@ -138,4 +148,4 @@ function Login() {
 
 Login.layout = Auth;
 
-export default ProtectedRoute(Login);
+export default Login

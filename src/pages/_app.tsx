@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { GetStaticProps } from "next";
 import ReactDOM from "react-dom";
-import App, { AppContext, AppProps } from 'next/app';
+import App, { AppProps } from 'next/app';
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import IdentityAuth from "utils/identityAuth";
@@ -27,13 +26,14 @@ const MyApp: React.FC<AppProps> = (props) => {
   const { locale } = useRouter();
 
   const [user, setUser] = useState<User | null>(null);
-
+  const [fetchingUser, userFetched] = useState(true);
 
   useEffect(() => {
     IdentityAuth.init();
     IdentityAuth.fetchUser().then((identity: User | null) => {
       if (identity)
         setUser(identity);
+      userFetched(false);
     })
   }, [])
 
@@ -43,6 +43,9 @@ const MyApp: React.FC<AppProps> = (props) => {
     if (_html.getAttribute("dir") !== dir)
       _html.setAttribute("dir", dir);
   }, [locale]);
+
+  if (fetchingUser)
+    return null
 
   return <>
     <Head>
@@ -59,18 +62,6 @@ const MyApp: React.FC<AppProps> = (props) => {
     </UserContext.Provider>
   </>
 }
-
-// export async function getStaticProps(appContext: AppContext) {
-
-//   // console.log("inapp call", appContext);
-//   IdentityAuth.init();
-//   IdentityAuth.fetchUser().then((identity: User | null) => {
-//     console.log(identity);
-//   })
-
-//   const appProps = await App.getInitialProps(appContext);
-//   return { ...appProps };
-// }
 
 export default appWithTranslation(MyApp)
 

@@ -580,8 +580,10 @@ const Landing = () => {
 
 export default AuthenticatedRoute(Landing);
 
-export const getStaticProps: GetStaticProps = async ({ locale,  }) => ({
-  props: {
-    ...await serverSideTranslations(locale as string, ['common', "header"])
+export const getStaticProps: GetStaticProps = async (context) => {
+  return {
+    props: {
+      ...await serverSideTranslations(context.locale as string, ['common', "header"])
+    }
   }
-})
+}

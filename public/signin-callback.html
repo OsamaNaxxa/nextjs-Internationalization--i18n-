@@ -17,10 +17,10 @@
         new Oidc.UserManager({
             response_mode: "query"
         }).signinRedirectCallback().then((res) => {
-            if (res.state) {
-                window.location = `landing`;
-            } else {
-                window.location = `404`;
+            if (res.state.redirect_Uri)
+                window.location = res.state.redirect_Uri;
+            else {
+                window.location = `/`;
             }
         }).catch(function (e) {
             console.error(e);
