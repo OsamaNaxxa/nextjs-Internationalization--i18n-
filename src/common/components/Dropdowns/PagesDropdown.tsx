@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import { createPopper } from "@popperjs/core";
 import { useTranslation } from 'next-i18next';
 
+import { UserContext } from 'contexts/UserContext';
+import IdentityAuth from "utils/identityAuth";
+
 const PagesDropdown = () => {
 
   const router = useRouter();
   const { locale } = router;
+
+  const user = useContext(UserContext);
 
   const { t } = useTranslation('header');
 
@@ -59,11 +64,11 @@ const PagesDropdown = () => {
           Auth Layout
         </span>
         {
-          false ?
+          user ?
             <button
               className="uppercase outline-none focus:outline-none text-sm pt-2 pb-0 px-4 font-bold block whitespace-nowrap bg-transparent text-lightBlue-600"
               type="button"
-              onClick={() => { }}
+              onClick={() => { IdentityAuth.logout() }}
             >
               <i className="fas fa-sign-out-alt"></i> Sign out
             </button>

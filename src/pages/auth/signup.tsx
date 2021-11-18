@@ -1,8 +1,9 @@
 import React from "react";
+import ProtectedRoute from "hocs/ProtectedRoute";
 
 import Auth from "common/layouts/Auth";
 
-export default function Register() {
+function Register() {
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -117,5 +118,7 @@ export default function Register() {
     </>
   );
 }
+
+export default ProtectedRoute(Register);
 
 Register.layout = Auth;

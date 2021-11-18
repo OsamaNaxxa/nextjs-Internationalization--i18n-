@@ -2,15 +2,12 @@
 import React from "react";
 import Link from "next/link";
 import { GetStaticProps } from 'next';
-import { useUser } from '@auth0/nextjs-auth0';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import IndexNavbar from "common/components/Navbars/IndexNavbar";
 import Footer from "common/components/Footers/Footer";
 
 export default function Index() {
-  const { user, error, isLoading } = useUser();
-  console.log(user);
 
   return (
     <>

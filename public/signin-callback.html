@@ -6,13 +6,25 @@
 </head>
 
 <body>
-    <div>html exists on page</div>
     <noscript>
         You need to enable JavaScript to run this app.
     </noscript>
 
+    <!-- <h1>Authentification callback processing...</h1> -->
+
+    <script src="oidc-client.min.js"></script>
     <script>
-        window.location = window.location.href.replace("signin-callback.html", "api/callback");
+        new Oidc.UserManager({
+            response_mode: "query"
+        }).signinRedirectCallback().then((res) => {
+            if (res.state) {
+                window.location = `landing`;
+            } else {
+                window.location = `404`;
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
     </script>
 
 </body>

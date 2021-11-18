@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GetStaticProps } from "next";
 import ReactDOM from "react-dom";
 import App, { AppContext, AppProps } from 'next/app';
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
+import IdentityAuth from "utils/identityAuth";
 import { appWithTranslation } from 'next-i18next';
-import { UserProvider } from '@auth0/nextjs-auth0';
 
+import { UserContext } from "contexts/UserContext";
 import PageChange from "common/components/PageChange/PageChange";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "styles/tailwind.css";
+import { User } from "oidc-client";
 
 interface CustomAppProps extends Omit<AppProps, "Component"> {
   Component: AppProps["Component"] & { layout: React.FC<any> };
@@ -24,6 +26,17 @@ const MyApp: React.FC<AppProps> = (props) => {
   const Layout = Component.layout || (({ children }: FCProps) => <>{children}</>);
   const { locale } = useRouter();
 
+  const [user, setUser] = useState<User | null>(null);
+
+
+  useEffect(() => {
+    IdentityAuth.init();
+    IdentityAuth.fetchUser().then((identity: User | null) => {
+      if (identity)
+        setUser(identity);
+    })
+  }, [])
+
   useEffect(() => {
     let dir = locale === "ar" ? "rtl" : "ltr";
     let _html = document.querySelector("html")!;
@@ -32,36 +45,34 @@ const MyApp: React.FC<AppProps> = (props) => {
   }, [locale]);
 
   return <>
-    <UserProvider>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <title> NextJS POC Project</title>
-      </Head>
+    <Head>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      />
+      <title> NextJS POC Project</title>
+    </Head>
+    <UserContext.Provider value={user}>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </UserProvider>
+    </UserContext.Provider>
   </>
 }
 
-// MyApp.getStaticProps = async (appContext: AppContext ) => {
-//   let path = appContext.ctx.asPath;
-//   console.log(path);
-//   if (path?.includes("/signin-callback.html")) {
-//     if (typeof window === "undefined" && appContext.ctx.res?.writeHead)
-//     appContext.ctx.res?.writeHead(302, { Location: path.replace("signin-callback.html", "api/auth/callback/identity-server4") }).end()
-//   }
+// export async function getStaticProps(appContext: AppContext) {
+
+//   // console.log("inapp call", appContext);
+//   IdentityAuth.init();
+//   IdentityAuth.fetchUser().then((identity: User | null) => {
+//     console.log(identity);
+//   })
 
 //   const appProps = await App.getInitialProps(appContext);
 //   return { ...appProps };
 // }
 
-
-// export default appWithTranslation(MyApp)
-export default MyApp
+export default appWithTranslation(MyApp)
 
 
 Router.events.on("routeChangeStart", (url) => {

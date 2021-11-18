@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Link from "next/link";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import AuthenticatedRoute from "hocs/AuthenticatedRoute";
 import Navbar from "common/components/Navbars/AuthNavbar";
 import Footer from "common/components/Footers/Footer";
 import { members } from "utils/members";
@@ -577,9 +578,9 @@ const Landing = () => {
   );
 }
 
-export default Landing;
+export default AuthenticatedRoute(Landing);
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+export const getStaticProps: GetStaticProps = async ({ locale,  }) => ({
   props: {
     ...await serverSideTranslations(locale as string, ['common', "header"])
   }
